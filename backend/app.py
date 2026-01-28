@@ -27,6 +27,27 @@ app.register_blueprint(auth_bp)
 def health_check():
     return {"status": "API running"}, 200
 
+@app.route("/seed-videos")
+def seed_videos():
+    from models.video_model import VideoModel
+    video_model = VideoModel(db)
+
+    video_model.create_video(
+        title="How Startups Fail",
+        description="Lessons from real founders",
+        youtube_id="abc123xyz",
+        thumbnail_url="https://img.youtube.com/vi/abc123xyz/hqdefault.jpg"
+    )
+
+    video_model.create_video(
+        title="Build Better APIs",
+        description="Backend design principles",
+        youtube_id="xyz789abc",
+        thumbnail_url="https://img.youtube.com/vi/xyz789abc/hqdefault.jpg"
+    )
+
+    return {"message": "Videos seeded"}
+
 
 if __name__ == "__main__":
     app.run(debug=True)
